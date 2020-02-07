@@ -43,7 +43,8 @@ M2GJExporter >> writeMooseEntityRelation: entity [
 		writeMapStreamingDo: [ :jsonMapWriter | 
 			jsonMapWriter writeKey: 'type' value: entity second name.
 			jsonMapWriter writeKey: 'startNode' value: entity first mooseID.
-			jsonMapWriter writeKey: 'endNode' value: entity third mooseID ]
+			jsonMapWriter writeKey: 'endNode' value: entity third mooseID.
+			jsonMapWriter writeKey: 'properties' value: {} asDictionary ]
 ]
 
 { #category : #writing }
