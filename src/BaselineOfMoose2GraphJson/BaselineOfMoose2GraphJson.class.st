@@ -31,6 +31,6 @@ BaselineOfMoose2GraphJson >> defineGroups: spec [
 { #category : #baselines }
 BaselineOfMoose2GraphJson >> definePackages: spec [
 	spec
-		"models"
-		package: 'Moose2GraphJson-Exporter' with: [spec requires: #('NeoJSON')]
+		package: 'Moose2GraphJson-Exporter' with: [ spec requires: #('NeoJSON') ];
+		package: 'Moose2GraphJson-Importer' with: [ spec requires: #('NeoJSON') ]
 ]
