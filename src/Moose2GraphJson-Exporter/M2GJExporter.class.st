@@ -68,23 +68,21 @@ M2GJExporter >> writeNodesOf: aMooseModel [
 { #category : #writing }
 M2GJExporter >> writePropertiesDo: block [
 	| mapWriter |
+	writeStream nextPut: $[.
 	mapWriter := M2GJStreamingPropertiesWriter on: self.
-	self indentedDo: [
-		block value: mapWriter ].
-	mapWriter wasUsed
-		ifTrue: [ self newlineIndent ]
-		ifFalse: [ self prettyPrintSpace ]
+	self indentedDo: [ block value: mapWriter ].
+	mapWriter wasUsed ifTrue: [ self newlineIndent ] ifFalse: [ self prettyPrintSpace ].
+	writeStream nextPut: $]
 ]
 
 { #category : #writing }
 M2GJExporter >> writeRelationsDo: block [
 	| mapWriter |
+	writeStream nextPut: $[.
 	mapWriter := M2GJStreamingRelationsWriter on: self.
-	self indentedDo: [
-		block value: mapWriter ].
-	mapWriter wasUsed
-		ifTrue: [ self newlineIndent ]
-		ifFalse: [ self prettyPrintSpace ]
+	self indentedDo: [ block value: mapWriter ].
+	mapWriter wasUsed ifTrue: [ self newlineIndent ] ifFalse: [ self prettyPrintSpace ].
+	writeStream nextPut: $]
 ]
 
 { #category : #writing }
