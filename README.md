@@ -85,3 +85,28 @@ Import and Export Fame model the following format
     }
   } 
 ```
+
+
+## Import in neo4j
+
+You can load the generated json file with the 2 commands
+
+```
+CALL apoc.load.json("file:///test.json") YIELD value AS row
+WITH row, row.graph.nodes AS nodes
+UNWIND nodes AS node
+CALL apoc.create.node(node.labels, node.properties) YIELD node AS n
+SET n.id = node.id
+```
+
+and
+
+```
+CALL apoc.load.json("file:///test.json") YIELD value AS row
+with row
+UNWIND row.graph.relationships AS rel
+MATCH (a) WHERE a.id = rel.endNode
+MATCH (b) WHERE b.id = rel.startNode
+CALL apoc.create.relationship(a, rel.type, rel.properties, b) YIELD rel AS r
+return *
+```
