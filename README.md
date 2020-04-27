@@ -2,6 +2,15 @@
 
 Project Under Development
 
+## Install
+
+```st
+Metacello new
+  githubUser: 'badetitou' project: 'Moose2GraphJson' commitish: 'master' path: 'src';
+  baseline: 'Moose2GraphJson';
+  load
+```
+
 ## Goal
 
 Import and Export Fame model the following format
@@ -89,7 +98,7 @@ Import and Export Fame model the following format
 ## Export a model
 
 ```st
-'D:/test.json' asFileReference writeStreamDo: [ :stream | (M2GJExporter on: stream) writeMooseModel: fm ]
+'D:/test.json' asFileReference writeStreamDo: [ :stream | (M2GJExporter on: stream) writeMooseModel: aMooseModel ]
 ```
 
 ## Import in neo4j
