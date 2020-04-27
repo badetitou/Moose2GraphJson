@@ -86,6 +86,11 @@ Import and Export Fame model the following format
   } 
 ```
 
+## Export a model
+
+```st
+'D:/test.json' asFileReference writeStreamDo: [ :stream | (M2GJExporter on: stream) writeMooseModel: fm ]
+```
 
 ## Import in neo4j
 
