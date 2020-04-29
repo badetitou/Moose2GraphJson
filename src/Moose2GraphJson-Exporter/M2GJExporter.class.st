@@ -6,7 +6,11 @@ Class {
 
 { #category : #writing }
 M2GJExporter >> propertiesOfToExport: entity [
-	^ entity allDeclaredProperties reject: [ :property | property isDerived or: [ property hasOpposite or: [ (entity propertyNamed: property name) isNil ] ] ]
+	^ entity allDeclaredProperties reject: [ :property | 
+		  property isDerived or: [ 
+			  property hasOpposite or: [ 
+				  (entity propertyNamed: property name) isNil or: [ 
+					  property type name = #Object ] ] ] ]
 ]
 
 { #category : #writing }
