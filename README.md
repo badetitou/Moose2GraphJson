@@ -4,6 +4,17 @@ I can export and import any MooseModel in a json format adapted for graph databa
 
 ## Install
 
+### stable version
+
+```smalltalk
+Metacello new
+  githubUser: 'badetitou' project: 'Moose2GraphJson' commitish: 'v1.0.0' path: 'src';
+  baseline: 'Moose2GraphJson';
+  load
+```
+
+### last version
+
 ```smalltalk
 Metacello new
   githubUser: 'badetitou' project: 'Moose2GraphJson' commitish: 'master' path: 'src';
