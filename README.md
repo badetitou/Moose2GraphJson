@@ -1,6 +1,6 @@
 # Moose2GraphJson
 
-I can export any MooseModel in a json format adapted for graph database.
+I can export and import any MooseModel in a json format adapted for graph database
 
 ## Install
 
