@@ -54,7 +54,6 @@ M2GJExporter >> writeMooseEntityRelation: entity [
 
 { #category : #writing }
 M2GJExporter >> writeMooseModel: aMooseModel [
-"	1halt."
 	writeStream nextPut: ${.
 	self encodeKey: aMooseModel name.
 	writeStream nextPut: ${.

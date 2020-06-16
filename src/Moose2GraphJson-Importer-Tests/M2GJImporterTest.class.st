@@ -192,9 +192,46 @@ M2GJImporterTest >> setUp [
 ]
 
 { #category : #running }
+M2GJImporterTest >> testHelloClassContainer [
+	"1 class and 10 anonymous classes"
+
+	self assert: (model allModelClasses detect: [ :class | class name = 'Hello' ]) container equals: model allModelNamespaces anyOne
+]
+
+{ #category : #running }
+M2GJImporterTest >> testHelloClassSuperInheritances [
+	"1 class and 10 anonymous classes"
+
+	self assert: (model allModelClasses detect: [ :class | class name = 'Hello' ]) superInheritances anyOne superclass equals: (model allClasses detect: [ :class | class name = 'Object' ])
+]
+
+{ #category : #running }
+M2GJImporterTest >> testNumberMethodOfHelloClass [
+	"1 class and 10 anonymous classes"
+	self assert: (model allModelClasses detect: [ :class | class name = 'Hello' ]) methods size equals: 18.
+]
+
+{ #category : #running }
+M2GJImporterTest >> testNumberOfEntities [
+	self assert: model size equals: 420.
+]
+
+{ #category : #running }
 M2GJImporterTest >> testNumberOfImportedClasses [
 	"1 class and 10 anonymous classes"
 	self assert: model allModelClasses size equals: 11.
 	"with the stub"
 	self assert: model allClasses size equals: 53
+]
+
+{ #category : #running }
+M2GJImporterTest >> testSimpleMetamodel [
+	| metamodel |
+	metamodel := FMMetaModel fromString: self simpleCompositeMetamodel.
+	self assert: metamodel packages size equals: 1.
+	self assert: metamodel classes size equals: 2.
+	self assert: metamodel properties size equals: 2.
+	self assert: (metamodel elementNamed: 'EG.Container.children') hasOpposite.
+	self assert: (metamodel elementNamed: 'EG.Leaf.parent') hasOpposite.
+	self assert: (metamodel elementNamed: 'EG.Container.children') opposite equals: (metamodel elementNamed: 'EG.Leaf.parent')
 ]
