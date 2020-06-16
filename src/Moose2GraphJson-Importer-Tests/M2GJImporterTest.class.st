@@ -223,15 +223,3 @@ M2GJImporterTest >> testNumberOfImportedClasses [
 	"with the stub"
 	self assert: model allClasses size equals: 53
 ]
-
-{ #category : #running }
-M2GJImporterTest >> testSimpleMetamodel [
-	| metamodel |
-	metamodel := FMMetaModel fromString: self simpleCompositeMetamodel.
-	self assert: metamodel packages size equals: 1.
-	self assert: metamodel classes size equals: 2.
-	self assert: metamodel properties size equals: 2.
-	self assert: (metamodel elementNamed: 'EG.Container.children') hasOpposite.
-	self assert: (metamodel elementNamed: 'EG.Leaf.parent') hasOpposite.
-	self assert: (metamodel elementNamed: 'EG.Container.children') opposite equals: (metamodel elementNamed: 'EG.Leaf.parent')
-]
