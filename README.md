@@ -4,7 +4,7 @@ I can export any MooseModel in a json format adapted for graph database.
 
 ## Install
 
-```st
+```smalltalk
 Metacello new
   githubUser: 'badetitou' project: 'Moose2GraphJson' commitish: 'master' path: 'src';
   baseline: 'Moose2GraphJson';
@@ -13,18 +13,18 @@ Metacello new
 
 ## Export a model
 
-```st
+```smalltalk
 'D:/test.json' asFileReference writeStreamDo: [ :stream | (M2GJExporter on: stream) writeMooseModel: aMooseModel ]
 ```
 
 ## Import a model
 
-```st
+```smalltalk
 (M2GJImporter on: 'D:/ref/to/model.json' asFileReference readStream) 
   model: MooseModel new;
   yourself.
 importer import.
-importer model name.
+importer model name
 ```
 
 ## Import in neo4j
