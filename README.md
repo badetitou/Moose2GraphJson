@@ -4,7 +4,7 @@ I can export and import any MooseModel in a json format adapted for graph databa
 
 ## Install
 
-### stable version
+### Stable version
 
 ```smalltalk
 Metacello new
@@ -13,7 +13,7 @@ Metacello new
   load
 ```
 
-### last version
+### Last version
 
 ```smalltalk
 Metacello new
