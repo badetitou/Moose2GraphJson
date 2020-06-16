@@ -1,0 +1,10 @@
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'Moose2GraphJson',
+      #directory : 'src',
+      #load : [ 'default' ],
+      #platforms : [ #pharo ]
+    }
+  ]
+}
