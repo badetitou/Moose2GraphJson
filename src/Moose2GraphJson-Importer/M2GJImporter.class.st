@@ -13,11 +13,10 @@ Class {
 M2GJImporter >> import [
 	entitiesMap := Dictionary new.
 	self
-		parseMapKeysDo: [ :key | 
-			model name: key.
-			self
-				parseMapKeysDo: [ :key2 | 
-					key2 = 'nodes'
+		parseMapKeysDo: [ :key2 | 
+			key2 = 'name'
+				ifTrue: [ model name: self parseValue ]
+				ifFalse: [ key2 = 'nodes'
 						ifTrue: [ self parseFamixEntities ]
 						ifFalse: [ key2 = 'relationships'
 								ifTrue: [ self parseFamixRelations ]

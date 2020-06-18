@@ -55,13 +55,14 @@ M2GJExporter >> writeMooseEntityRelation: entity [
 { #category : #writing }
 M2GJExporter >> writeMooseModel: aMooseModel [
 	writeStream nextPut: ${.
-	self encodeKey: aMooseModel name.
-	writeStream nextPut: ${.
-	self writeNodesOf: aMooseModel.
-	self mapElementSeparator.
-	self writeRelationshipsOf: aMooseModel.
-	writeStream nextPut: $}.
-	writeStream nextPut: $}
+	self
+		writeStreamingDo: [ :jsonMapWriter | 
+			jsonMapWriter writeKey: 'name' value: aMooseModel name.
+			self mapElementSeparator.
+			self writeNodesOf: aMooseModel.
+			self mapElementSeparator.
+			self writeRelationshipsOf: aMooseModel.
+			writeStream nextPut: $} ]
 ]
 
 { #category : #writing }
