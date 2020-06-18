@@ -44,7 +44,7 @@ You can load the generated json file with this command
 
 ```db
 CALL apoc.load.json('file:///test.json') YIELD value
-WITH value.graph.nodes AS nodes, value.graph.relationships AS rels
+WITH value.nodes AS nodes, value.relationships AS rels
 UNWIND nodes AS n
 CALL apoc.create.node(n.labels, apoc.map.setKey(n.properties, 'id', n.id)) YIELD node
 WITH rels, COLLECT({id: n.id, node: node, labels:labels(node)}) AS nMap
@@ -55,9 +55,6 @@ CALL apoc.create.relationship(w, r.type, r.properties, y) YIELD rel
 RETURN rel
 ```
 
-> In `value.graph.nodes`, please replace `graph`, by your model name (first element in the Json file)
-
-
 ## JSON model format
 
 ## Goal
@@ -66,28 +63,28 @@ Import and Export Fame model the following format
 
 ```json
 {
-    "modelName": {
-        "nodes": [
-            {
-              "id": 3510982, 
-              "labels": ["FAMIX.Class"],
-              "properties": { "isStub": false, "isInterface": false, "numberOfLinesOfCode": 0, "name": "a" }
-            },
-            {
-              "id": 3510983, 
-              "labels": ["FAMIX.Attribute"],
-              "properties": { "name": "a1", "hasClassScope": false, "numberOfLinesOfCode": -1, "isStub": false }
-            },
-            {
-              "id": 3510984, 
-              "labels": ["FAMIX.Attribute"],
-              "properties": { "name": "a2", "hasClassScope": false, "numberOfLinesOfCode": -1, "isStub": false }
-            }
-        ],
-        "relationships": [
-            { "type": "parentType", "startNode": 3510983, "endNode": 3510982, "properties": {} },
-            { "type": "parentType", "startNode": 3510984, "endNode": 3510982, "properties": {} }
-        ]
+  "name":"modelName",
+  "nodes": [
+    {
+      "id": 3510982, 
+      "labels": ["FAMIX.Class"],
+      "properties": { "isStub": false, "isInterface": false, "numberOfLinesOfCode": 0, "name": "a" }
+    },
+    {
+      "id": 3510983, 
+      "labels": ["FAMIX.Attribute"],
+      "properties": { "name": "a1", "hasClassScope": false, "numberOfLinesOfCode": -1, "isStub": false }
+    },
+    {
+      "id": 3510984, 
+      "labels": ["FAMIX.Attribute"],
+      "properties": { "name": "a2", "hasClassScope": false, "numberOfLinesOfCode": -1, "isStub": false }
     }
+    ],
+    "relationships": [
+      { "type": "parentType", "startNode": 3510983, "endNode": 3510982, "properties": {} },
+      { "type": "parentType", "startNode": 3510984, "endNode": 3510982, "properties": {} }
+    ]
+  }
 }
 ```
