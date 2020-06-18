@@ -62,7 +62,8 @@ M2GJExporter >> writeMooseModel: aMooseModel [
 			self writeNodesOf: aMooseModel.
 			self mapElementSeparator.
 			self writeRelationshipsOf: aMooseModel.
-			writeStream nextPut: $} ]
+			writeStream nextPut: $} ].
+	writeStream flush; close.
 ]
 
 { #category : #writing }
