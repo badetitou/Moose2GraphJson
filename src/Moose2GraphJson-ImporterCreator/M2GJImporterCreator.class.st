@@ -116,7 +116,8 @@ M2GJImporterCreator >> parseFamixRelations [
 M2GJImporterCreator >> parsePropertiesFor: entity [
 	"parse the properties for entity"
 
-	self parseMapKeysAndValuesDo: [ :key :value | entity property: key ]
+	self parseMapKeysAndValuesDo: [ :key :value | 		
+		self setTypeOf: (entity property: key) fromValue: value ]
 ]
 
 { #category : #accessing }
@@ -132,4 +133,13 @@ M2GJImporterCreator >> prefix: aPrefix [
 { #category : #importing }
 M2GJImporterCreator >> relationMap [
 	^ relationMap
+]
+
+{ #category : #importing }
+M2GJImporterCreator >> setTypeOf: property fromValue: value [
+	value isString ifTrue: [ ^ property propertyType: #String ].
+	value isNumber ifTrue: [ ^ property propertyType: #Number ].
+	value isBoolean ifTrue: [ ^ property propertyType: #Boolean ].
+	property propertyType: #Object.
+	
 ]
