@@ -28,13 +28,24 @@ M2GJImporterCreator >> defaultBuilder [
 	^ FamixMetamodelBuilder
 ]
 
+{ #category : #importing }
+M2GJImporterCreator >> determineTypeOf: value [
+	value isString ifTrue: [ ^ #String ].
+	value isNumber ifTrue: [ ^ #Number ].
+	value isBoolean ifTrue: [ ^ #Boolean ].
+	^ #Object.
+	
+]
+
 { #category : #generate }
 M2GJImporterCreator >> generate [
-	self builder generate
+	self builder generate.
 ]
 
 { #category : #importing }
 M2GJImporterCreator >> import [
+	self builder configuration prefix: self prefix.
+	self builder configuration packageName: self packageName.
 	entitiesMap := Dictionary new.
 	self
 		parseMapKeysDo: [ :key2 | 
@@ -117,7 +128,7 @@ M2GJImporterCreator >> parsePropertiesFor: entity [
 	"parse the properties for entity"
 
 	self parseMapKeysAndValuesDo: [ :key :value | 		
-		self setTypeOf: (entity property: key) fromValue: value ]
+		entity property: key type: (self determineTypeOf: value) ]
 ]
 
 { #category : #accessing }
@@ -133,13 +144,4 @@ M2GJImporterCreator >> prefix: aPrefix [
 { #category : #importing }
 M2GJImporterCreator >> relationMap [
 	^ relationMap
-]
-
-{ #category : #importing }
-M2GJImporterCreator >> setTypeOf: property fromValue: value [
-	value isString ifTrue: [ ^ property propertyType: #String ].
-	value isNumber ifTrue: [ ^ property propertyType: #Number ].
-	value isBoolean ifTrue: [ ^ property propertyType: #Boolean ].
-	property propertyType: #Object.
-	
 ]
