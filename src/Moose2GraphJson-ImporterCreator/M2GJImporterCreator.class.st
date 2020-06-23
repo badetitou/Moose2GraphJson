@@ -38,7 +38,9 @@ M2GJImporterCreator >> determineTypeOf: value [
 
 { #category : #generate }
 M2GJImporterCreator >> generate [
-	self builder generate.
+	"set moose model name"
+	self builder configuration mooseModelName: self prefix, 'Model'.
+	self builder generate
 ]
 
 { #category : #importing }
@@ -64,13 +66,8 @@ M2GJImporterCreator >> initialize [
 	relationMap := SmallDictionary new.
 	builder := self defaultBuilder new.
 	self prefix: #'M2DJC'.
-	self packageName: #'M2DGJC-Generated'.
+	self packageName: #'M2DGJC-Generated'
 	
-]
-
-{ #category : #accessing }
-M2GJImporterCreator >> metamodel [
-	^ self model metamodel
 ]
 
 { #category : #accessing }
