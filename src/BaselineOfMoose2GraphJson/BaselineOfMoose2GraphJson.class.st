@@ -33,5 +33,6 @@ BaselineOfMoose2GraphJson >> definePackages: spec [
 	spec
 		package: 'Moose2GraphJson-Exporter' with: [ spec requires: #('NeoJSON') ];
 		package: 'Moose2GraphJson-Importer' with: [ spec requires: #('NeoJSON') ];
+		package: 'Moose2GraphJson-ImporterCreator' with: [ spec requires: #('NeoJSON') ];
 		package: 'Moose2GraphJson-Importer-Tests' with: [ spec requires: #('Moose2GraphJson-Importer') ]
 ]
