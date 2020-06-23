@@ -118,7 +118,7 @@ M2GJImporterCreator >> parseFamixRelations [
 
 	self parseListDo: [ self parseFamixRelation ].
 	"complete builder"
-	relationMap associationsDo: [ :assoc | (assoc key key property: assoc value anyOne asSymbol) *-* assoc key value ]
+	relationMap associationsDo: [ :assoc | (assoc key first property: assoc value anyOne asSymbol) *-* assoc key last ]
 ]
 
 { #category : #importing }
@@ -146,5 +146,5 @@ M2GJImporterCreator >> relationMap [
 
 { #category : #importing }
 M2GJImporterCreator >> resolveAssociationFrom: map [
-	^ (entitiesMap at: (map at: #startNode)) -> (entitiesMap at: (map at: #endNode))
+	^ {(entitiesMap at: (map at: #startNode)) . (map at: #type) . (entitiesMap at: (map at: #endNode))}
 ]
