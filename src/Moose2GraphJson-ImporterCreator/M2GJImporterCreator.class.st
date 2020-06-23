@@ -100,7 +100,7 @@ M2GJImporterCreator >> parseFamixEntity [
 			key = 'labels'
 				ifTrue: [ | list |
 					list := self parseList.
-					entity := self builder ensureClassNamed: (list anyOne substrings: '.') second ].
+					entity := self builder ensureClassNamed: (list anyOne substrings: '.') last ].
 			key = 'properties' ifTrue: [ self parsePropertiesFor: entity ] ].
 	entitiesMap at: id put: entity
 ]
