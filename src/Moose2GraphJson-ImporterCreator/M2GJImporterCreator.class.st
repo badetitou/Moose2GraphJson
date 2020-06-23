@@ -8,7 +8,6 @@ Class {
 	#name : #M2GJImporterCreator,
 	#superclass : #NeoJSONReader,
 	#instVars : [
-		'model',
 		'entitiesMap',
 		'relationMap',
 		'builder',
@@ -50,7 +49,7 @@ M2GJImporterCreator >> import [
 	self
 		parseMapKeysDo: [ :key2 | 
 			key2 = 'name'
-				ifTrue: [ model name: self parseValue ]
+				ifTrue: [ self parseValue ]
 				ifFalse: [ key2 = 'nodes'
 						ifTrue: [ self parseFamixEntities ]
 						ifFalse: [ key2 = 'relationships'
@@ -72,16 +71,6 @@ M2GJImporterCreator >> initialize [
 { #category : #accessing }
 M2GJImporterCreator >> metamodel [
 	^ self model metamodel
-]
-
-{ #category : #accessing }
-M2GJImporterCreator >> model [
-	^ model
-]
-
-{ #category : #accessing }
-M2GJImporterCreator >> model: anObject [
-	model := anObject
 ]
 
 { #category : #accessing }
