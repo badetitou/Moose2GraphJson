@@ -39,8 +39,9 @@ M2GJImporterCreator >> determineTypeOf: value [
 { #category : #generate }
 M2GJImporterCreator >> generate [
 	"set moose model name"
-	self builder configuration mooseModelName: self prefix, 'Model'.
-	self builder generate
+	self builder configuration mooseModelName: self mooseModelName.
+	self builder generate.
+	(self class environment classNamed: self mooseModelName) resetMetamodel
 ]
 
 { #category : #importing }
@@ -68,6 +69,11 @@ M2GJImporterCreator >> initialize [
 	self prefix: #'M2DJC'.
 	self packageName: #'M2DGJC-Generated'
 	
+]
+
+{ #category : #accessing }
+M2GJImporterCreator >> mooseModelName [
+	^ self prefix, 'Model'
 ]
 
 { #category : #accessing }
@@ -101,12 +107,18 @@ M2GJImporterCreator >> parseFamixEntity [
 
 { #category : #importing }
 M2GJImporterCreator >> parseFamixRelation [
-	self parseMapKeysAndValuesDo: [ :key :value | self relationMap at: key put: value ].
+	| map | 
+	map := self parseMap.
+	 relationMap at: (self resolveAssociationFrom: map) ifPresent: [ :collection | collection add: (map at: #type) ] ifAbsentPut: {(map at: #type)} asOrderedCollection .
 ]
 
 { #category : #importing }
 M2GJImporterCreator >> parseFamixRelations [
-	self parseListDo: [ self parseFamixRelation ]
+	"fill list"
+
+	self parseListDo: [ self parseFamixRelation ].
+	"complete builder"
+	relationMap associationsDo: [ :assoc | (assoc key key property: assoc value anyOne asSymbol) *-* assoc key value ]
 ]
 
 { #category : #importing }
@@ -130,4 +142,9 @@ M2GJImporterCreator >> prefix: aPrefix [
 { #category : #importing }
 M2GJImporterCreator >> relationMap [
 	^ relationMap
+]
+
+{ #category : #importing }
+M2GJImporterCreator >> resolveAssociationFrom: map [
+	^ (entitiesMap at: (map at: #startNode)) -> (entitiesMap at: (map at: #endNode))
 ]
