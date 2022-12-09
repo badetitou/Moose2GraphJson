@@ -17,7 +17,7 @@ Metacello new
 
 ```smalltalk
 Metacello new
-  githubUser: 'badetitou' project: 'Moose2GraphJson' commitish: 'master' path: 'src';
+  githubUser: 'badetitou' project: 'Moose2GraphJson' commitish: 'main' path: 'src';
   baseline: 'Moose2GraphJson';
   load
 ```
