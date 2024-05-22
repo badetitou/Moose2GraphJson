@@ -6,26 +6,41 @@ Class {
 
 { #category : #writing }
 M2GJExporter >> propertiesOfToExport: entity [
-	^ entity allDeclaredProperties
-		reject: [ :property | 
-			property isDerived
-				or: [ property hasOpposite
-						or: [ (entity propertyNamed: property name) isNil
-								or: [ property type name = #Object or: [ (entity propertyNamed: property name) isCollection and: [ (entity propertyNamed: property name) isEmpty ] ] ] ] ] ]
+
+	^ entity allDeclaredProperties reject: [ :property |
+		  property isDerived or: [
+			  property hasOpposite or: [
+				  (entity propertyNamed: property name ifAbsent: [ nil ]) isNil
+					  or: [
+						  property type name = #Object or: [
+							  (entity propertyNamed: property name) isCollection and: [
+								  (entity propertyNamed: property name) isEmpty ] ] ] ] ] ]
 ]
 
 { #category : #writing }
 M2GJExporter >> relationsToExport: aMooseModel [
+
 	| col |
 	col := OrderedCollection new.
-	aMooseModel entities
-		do: [ :entity | 
-			entity allDeclaredProperties
-				reject: [ :property | property isDerived or: [ property hasOpposite not or: [ (entity propertyNamed: property name) isNil ] ] ]
-				thenDo: [ :property | 
-					(entity propertyNamed: property name) isCollection
-						ifTrue: [ (entity propertyNamed: property name) do: [ :value | col add: {entity . property . value} ] ]
-						ifFalse: [ col add: {entity . property . (entity propertyNamed: property name)} ] ] ].
+	aMooseModel entities do: [ :entity |
+		entity allDeclaredProperties
+			reject: [ :property |
+				property isDerived or: [
+					property hasOpposite not or: [
+						(entity propertyNamed: property name ifAbsent: [ nil ]) isNil ] ] ]
+			thenDo: [ :property |
+				(entity propertyNamed: property name) isCollection
+					ifTrue: [
+						(entity propertyNamed: property name) do: [ :value |
+							col add: {
+									entity.
+									property.
+									value } ] ]
+					ifFalse: [
+						col add: {
+								entity.
+								property.
+								(entity propertyNamed: property name) } ] ] ].
 	^ col
 ]
 
