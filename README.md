@@ -53,13 +53,11 @@ RETURN node
 
 Second
 ```db
-CALL apoc.load.json("file:///test.json") YIELD value AS row
-with row
+CALL apoc.load.json("file:///test-graph.json") YIELD value as row
 UNWIND row.relationships AS rel
-MATCH (a) WHERE a.id = rel.endNode
-MATCH (b) WHERE b.id = rel.startNode
+MATCH (a), (b) WHERE a.id = rel.endNode AND b.id = rel.startNode
 CALL apoc.create.relationship(a, rel.type, rel.properties, b) YIELD rel AS r
-return *
+return r
 ```
 
 ### One step call
@@ -104,11 +102,10 @@ Import and Export Fame model the following format
       "labels": ["FAMIX.Attribute"],
       "properties": { "name": "a2", "hasClassScope": false, "numberOfLinesOfCode": -1, "isStub": false }
     }
-    ],
-    "relationships": [
-      { "type": "parentType", "startNode": 3510983, "endNode": 3510982, "properties": {} },
-      { "type": "parentType", "startNode": 3510984, "endNode": 3510982, "properties": {} }
-    ]
-  }
+  ],
+  "relationships": [
+    { "type": "parentType", "startNode": 3510983, "endNode": 3510982, "properties": {} },
+    { "type": "parentType", "startNode": 3510984, "endNode": 3510982, "properties": {} }
+  ]
 }
 ```
