@@ -40,40 +40,18 @@ importer model name
 
 ## Import in neo4j
 
-### Two steps
+You can load the generated json file with this command
 
-First 
 ```db
 CALL apoc.load.json('file:///test-graph.json') YIELD value
 WITH value.nodes AS nodes, value.relationships AS rels
 UNWIND nodes AS n
 CALL apoc.create.node(n.labels, apoc.map.setKey(n.properties, 'id', n.id)) YIELD node
-RETURN node
-```
-
-Second
-```db
-CALL apoc.load.json("file:///test-graph.json") YIELD value as row
-UNWIND row.relationships AS rel
-MATCH (a), (b) WHERE a.id = rel.endNode AND b.id = rel.startNode
-CALL apoc.create.relationship(a, rel.type, rel.properties, b) YIELD rel AS r
-return r
-```
-
-### One step call
-
-You can load the generated json file with this command
-
-```db
-CALL apoc.load.json('file:///test.json') YIELD value
-WITH value.nodes AS nodes, value.relationships AS rels
-UNWIND nodes AS n
-CALL apoc.create.node(n.labels, apoc.map.setKey(n.properties, 'id', n.id)) YIELD node
-WITH rels, COLLECT({id: n.id, node: node, labels:labels(node)}) AS nMap
+WITH rels, apoc.map.fromPairs(COLLECT([n.id, node])) AS nMap
 UNWIND rels AS r
-MATCH (w{id:r.startNode})
-MATCH (y{id:r.endNode})
-CALL apoc.create.relationship(w, r.type, r.properties, y) YIELD rel
+WITH r, nMap[TOSTRING(r.startNode)] AS startNode, nMap[TOSTRING(r.endNode)] AS endNode
+WHERE startNode IS NOT NULL and endNode IS NOT NULL 
+CALL apoc.create.relationship(startNode, r.type, r.properties, endNode) YIELD rel
 RETURN rel
 ```
 
