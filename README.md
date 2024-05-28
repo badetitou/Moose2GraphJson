@@ -40,6 +40,30 @@ importer model name
 
 ## Import in neo4j
 
+### Two steps
+
+First 
+```db
+CALL apoc.load.json('file:///test-graph.json') YIELD value
+WITH value.nodes AS nodes, value.relationships AS rels
+UNWIND nodes AS n
+CALL apoc.create.node(n.labels, apoc.map.setKey(n.properties, 'id', n.id)) YIELD node
+RETURN node
+```
+
+Second
+```db
+CALL apoc.load.json("file:///test.json") YIELD value AS row
+with row
+UNWIND row.relationships AS rel
+MATCH (a) WHERE a.id = rel.endNode
+MATCH (b) WHERE b.id = rel.startNode
+CALL apoc.create.relationship(a, rel.type, rel.properties, b) YIELD rel AS r
+return *
+```
+
+### One step call
+
 You can load the generated json file with this command
 
 ```db
